@@ -13,16 +13,43 @@ An Azure compute instance is required to be created to enable running the notebo
 ## Dataset
 
 ### Overview
-*TODO*: Explain about the data you are using and where you got it from.
+The dataset being used is called "Heart Failure Clinical Results", and is of type classification. The dataset has been obtained from UC Irvine Machine Learning Repository, and can be downloaded from this url: https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv
 
 ### Task
-*TODO*: Explain the task you are going to be solving with this dataset and the features you will be using for it.
+The dataset consists of 12 clinical features, and target class to predict is called "death event". The 12 clinical features are:
+
+1. age: age of the patient (years)
+2. anaemia: decrease of red blood cells or hemoglobin (boolean)
+3. high blood pressure: if the patient has hypertension (boolean)
+4. creatinine phosphokinase (CPK): level of the CPK enzyme in the blood (mcg/L)
+5. diabetes: if the patient has diabetes (boolean)
+6. ejection fraction: percentage of blood leaving the heart at each contraction (percentage)
+7. platelets: platelets in the blood (kiloplatelets/mL)
+8. sex: woman or man (binary)
+9. serum creatinine: level of serum creatinine in the blood (mg/dL)
+10. serum sodium: level of serum sodium in the blood (mEq/L)
+11. smoking: if the patient smokes or not (boolean)
+12. time: follow-up period (days)
+
+The target column is: 
+1. death event: if the patient deceased during the follow-up period (1=Yes, 0=No)
 
 ### Access
-*TODO*: Explain how you are accessing the data in your workspace.
+The dataset csv file is available directly through an internet link (https://archive.ics.uci.edu/ml/machine-learning-databases/00519/heart_failure_clinical_records_dataset.csv) which is being loaded into a TabularDataset in the notebook.
 
 ## Automated ML
-*TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
+A compute instance of type STANDARD_D3_V2 was created to run the 2 Jupyter Notebook in Azure ML Studio. 
+
+In both the notebooks (automl.ipynb and hyperparameter_tuning.ipynb), a compute cluster was detected for existance, and if not already presence, was created, of type 'Standard_DS12_v2'.
+
+In both the notebooks (automl.ipynb and hyperparameter_tuning.ipynb), the existence of the dataset was checked by key name, and if the dataset was not found, it was created and registered with Azure, by importing the csv file into a Tabular dataset using this code:
+  Dataset.Tabular.from_delimited_files(url)
+
+The AutoML settings used were: 
+  automl_settings = {"primary_metric":"accuracy", "experiment_timeout_minutes":30, "enable_early_stopping":True, "n_cross_validations":5,"max_concurrent_iterations": 5}
+
+The AutoML config settings for the experiment were set as:
+  automl_config = AutoMLConfig(compute_target = compute_target, task = 'classification', training_data = train, label_column_name = 'DEATH_EVENT',**automl_settings)
 
 ### Results
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
@@ -42,10 +69,7 @@ An Azure compute instance is required to be created to enable running the notebo
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
 
 ## Screen Recording
-*TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
-- A working model
-- Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
+Screen Recording is available here: [https://youtu.be/RzUcTHB9gas](https://youtu.be/RzUcTHB9gas)
 
 ## Standout Suggestions
 *TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
