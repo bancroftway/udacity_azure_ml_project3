@@ -35,3 +35,48 @@ hyperdrive_run_config = HyperDriveConfig(run_config=estimator, hyperparameter_sa
 
 
 ['--C', '10', '--max_iter', '200', '--solver', 'liblinear']
+
+
+
+service=Model.deploy(workspace=ws,
+                    name="arvc-hyper-best-model-svc5",
+                    models=[model],
+                    inference_config=inference_config,
+                    deployment_config=deployment_config)
+service.wait_for_deployment(show_output=True)
+
+
+
+scoring_uri = service.scoring_uri
+
+print(f'\nservice state: {service.state}\n')
+print(f'scoring URI: \n{service.scoring_uri}\n')
+print(f'swagger URI: \n{service.swagger_uri}\n')
+
+print(service.scoring_uri)
+print(service.swagger_uri)
+
+
+
+
+modelrequest = test[:2].values.tolist()
+modelrequest = [modelrequest[0][:-1],modelrequest[1][:-1]]
+modelrequest
+
+
+
+import requests
+import json
+
+data = json.dumps({"data":modelrequest})
+headers = {'Content-Type':'application/json'}
+
+response = requests.post(scoring_uri,data,headers=headers)
+print(response.text)
+
+
+
+
+print('Status code:',response.status_code)
+
+print(service.get_logs())
