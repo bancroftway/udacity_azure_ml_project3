@@ -32,3 +32,6 @@ hyperdrive_run_config = HyperDriveConfig(run_config=estimator, hyperparameter_sa
                                     max_duration_minutes=30,
                                     primary_metric_name='Accuracy',
                                     primary_metric_goal=PrimaryMetricGoal.MAXIMIZE)
+
+
+['--C', '10', '--max_iter', '200', '--solver', 'liblinear']
