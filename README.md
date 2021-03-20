@@ -53,8 +53,41 @@ The AutoML config settings for the experiment were set as:
 
 ### Results
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
+The AutoML experiment explored several models, out of which the best performing model was identified as "MinMaxScaler RandomForest" with an accuracy metric of 0.8485.
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+The parameters of the best model were:
+  RandomForestClassifier(bootstrap=True, ccp_alpha=0.0,
+  class_weight='balanced',
+  criterion='gini', max_depth=None,
+  max_features='log2',
+  max_leaf_nodes=None, max_samples=None,
+  min_impurity_decrease=0.0,
+  min_impurity_split=None,
+  min_samples_leaf=0.01,
+  min_samples_split=0.01,
+  min_weight_fraction_leaf=0.0,
+  n_estimators=25, n_jobs=1,
+  oob_score=True, random_state=None,
+  verbose=0, warm_start=False))]
+  
+The model could be improved by:
+1. Running the experiment for a longer time
+2. Utilizing deep learning for the classification task
+
+Screenshot of RunDetails widget:
+![Rundetails Widget](./screenshots/s1.png)
+
+Screenshot of best model and its run id:
+![Best model and its run id](./screenshots/s2a.png)
+
+Screenshot of best model and its parameters:
+![Best model and its parameters](./screenshots/s2b.png)
+
+Screenshot of best model and its metrics:
+![Best model and its metrics](./screenshots/s3.png)
+
+Screenshot of models explored by AutoML and their metric values:
+![Models explored by AutoML and their metric values](./screenshots/s4.png)
 
 ## Hyperparameter Tuning
 *TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
