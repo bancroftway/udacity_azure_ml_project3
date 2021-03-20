@@ -1,11 +1,14 @@
-*NOTE:* This file is a template that you can use to create the README for your project. The *TODO* comments below will highlight the information you should be sure to include.
+# Udacity Azure Machine Learning Engineer Nanodegree - Capstone project
 
-# Your Project Title Here
-
-*TODO:* Write a short introduction to your project.
+A dataset called "Heart Failure Clinical Results" is used to train 2 separate models: 1. using Azure AutoML 2. using a LogisticRegression classifer whose hyper-parameters are tuned using Hyperdrive library
 
 ## Project Set Up and Installation
-*OPTIONAL:* If your project has any special installation steps, this is where you should put it. To turn this project into a professional portfolio project, you are encouraged to explain how to set up this project in AzureML.
+An Azure compute instance is required to be created to enable running the notebooks. The folowing files have to uploaded to the Azure compute instance:
+1. automl.ipynb
+2. hyperparameter_tuning.ipynb
+3. conda_dependencies.yaml
+4. train.py
+5. score.py
 
 ## Dataset
 
