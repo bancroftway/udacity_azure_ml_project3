@@ -123,7 +123,6 @@ Screenshot of best model, it's run id, and parameters found for the best model :
 ![Best model, it's run id, and parameters found for the best model](./screenshots/s6.png)
 
 ## Model Deployment
-*TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
 Since the model obtained from hyper-parameter tuning has a higher accuracy of 0.8933, it was chosen to be deployed. The model was deployed using this code:
   service=Model.deploy(workspace=ws,
   name="arvc-hyper-best-model-svc5",
