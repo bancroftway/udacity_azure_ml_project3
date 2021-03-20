@@ -52,7 +52,6 @@ The AutoML config settings for the experiment were set as:
   automl_config = AutoMLConfig(compute_target = compute_target, task = 'classification', training_data = train, label_column_name = 'DEATH_EVENT',**automl_settings)
 
 ### Results
-*TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
 The AutoML experiment explored several models, out of which the best performing model was identified as "MinMaxScaler RandomForest" with an accuracy metric of 0.8485.
 
 The parameters of the best model were:
@@ -90,19 +89,63 @@ Screenshot of models explored by AutoML and their metric values:
 ![Models explored by AutoML and their metric values](./screenshots/s4.png)
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
+LogisticRegression model was used for this experiment since it is easy to understand, does not have a lot of parameters and is well suited to classification problems.
 
+A RandomParameterSampling strategy was used with 3 parameters for this model: 
+1. solver: Algorithm to use in the optimization problem (‘newton-cg’, ‘lbfgs’, ‘liblinear’, ‘sag’, ‘saga’)
+2. max_iter: Maximum number of iterations taken for the solvers to converge
+3. C: Inverse of regularization strength
+
+The code for random parameter sampling is:
+  param_sampling = RandomParameterSampling({'C': uniform(0.01, 0.1, 1, 10, 100),
+  'max_iter' : choice(50,75,100,125,150,175,200),
+  'solver' : choice('liblinear','sag','lbfgs', 'saga')})
+
+The primary metric used is "Accuracy", and the objective was to maximize this metric:
+  hyperdrive_run_config = HyperDriveConfig(run_config=estimator, hyperparameter_sampling=param_sampling,policy=early_termination_policy,max_total_runs=50,
+  max_duration_minutes=30,
+  primary_metric_name='Accuracy',
+  primary_metric_goal=PrimaryMetricGoal.MAXIMIZE)
 
 ### Results
-*TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
+The best performing model has accuracy metric of 0.8933 which exceeded the accuracy metric found by the best AutoMl model of 0.8485. The parameters of best model found by hyperdrive were:
+  ['--C', '10', '--max_iter', '200', '--solver', 'liblinear']
+  
+The model could be improved by
+1. by utilizing a more complex model such as deep learning model
+2. by using more parameters (more than the current 3) to tune
+3. expanding the search space, for hyperdrive to try much larger ranges of parameter values to try
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+Screenshot of RunDetails widget:
+![Rundetails Widget](./screenshots/s5.png)
+
+Screenshot of best model, it's run id, and parameters found for the best model :
+![Best model, it's run id, and parameters found for the best model](./screenshots/s6.png)
 
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
+Since the model obtained from hyper-parameter tuning has a higher accuracy of 0.8933, it was chosen to be deployed. The model was deployed using this code:
+  service=Model.deploy(workspace=ws,
+  name="arvc-hyper-best-model-svc5",
+  models=[model],
+  inference_config=inference_config,
+  deployment_config=deployment_config)
+  service.wait_for_deployment(show_output=True)
+  
+The deployed model's endpoint is exposed as a REST endpoint. We can retrieve the scoring endpoint's url like so:
+  scoring_uri = service.scoring_uri
+  
+Once we have the scoring url, we can then submit a Json request to the scoring url by making a POST Http request, as below. In this code, the 'data' variable is a json object containing the 12 features required by our model:
+  data = json.dumps({"data":modelrequest})
+  headers = {'Content-Type':'application/json'}
+  response = requests.post(scoring_uri,data,headers=headers)
+  print(response.text)
+  
+Screenshot showing the deployed model's endpoint and it's status as 'HEALTHY':
+![Deployed model's endpoint](./screenshots/s7.png)
+
+Screenshot showing the process to make an Http POST request to the scoring api url, by sending Json Payload:
+![Making request to model's endpoint](./screenshots/s8.png)
 
 ## Screen Recording
 Screen Recording is available here: [https://youtu.be/RzUcTHB9gas](https://youtu.be/RzUcTHB9gas)
-
-## Standout Suggestions
-*TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
