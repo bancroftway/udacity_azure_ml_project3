@@ -7,7 +7,7 @@ from azureml.core.model import Model
 def init():
     global model
     try:
-        model_path = Model.get_model_path('best_hd_run')
+        model_path = Model.get_model_path('arvc_best_hyperdrive_model5')
         model = joblib.load(model_path)
     except Exception as err:
         print("init method error: "+str(err))
