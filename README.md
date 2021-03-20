@@ -151,4 +151,4 @@ Once we have the scoring url, we can then submit a Json request to the scoring u
 2. Screenshot showing the process to make an Http POST request to the scoring api url, by sending Json Payload:![Making request to model's endpoint](./screenshots/s8.png)
 
 ## Screen Recording
-Screen Recording is available here: [https://youtu.be/RzUcTHB9gas](https://youtu.be/RzUcTHB9gas)
+Screen Recording is available here: [https://youtu.be/nUd91R_R6wc](https://youtu.be/nUd91R_R6wc)
