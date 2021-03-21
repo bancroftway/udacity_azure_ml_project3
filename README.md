@@ -66,7 +66,7 @@ Some of the noteworthy AutoML config settings for the experiment were set as:
 2. label_column_name: This is the column in the dataset that contains the label column. In our case it is "DEATH_EVENT".
 
 
-The AutoML config settings for the experiment were set as:
+The AutoML config settings for the experiment were set using this code:
 ```
   automl_config = AutoMLConfig(compute_target = compute_target, task = 'classification', training_data = train, label_column_name = 'DEATH_EVENT',**automl_settings)
 ```
