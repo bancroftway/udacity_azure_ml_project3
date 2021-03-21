@@ -49,10 +49,22 @@ In both the notebooks (automl.ipynb and hyperparameter_tuning.ipynb), a compute 
 In both the notebooks (automl.ipynb and hyperparameter_tuning.ipynb), the existence of the dataset was checked by key name, and if the dataset was not found, it was created and registered with Azure, by importing the csv file into a Tabular dataset using this code:
   Dataset.Tabular.from_delimited_files(url)
 
-The AutoML settings used were: 
+The AutoML settings configured for the experiment where:
+1. primary_metric: This is the metric that AutoML uses to rank the various models it explores. In this case, 'Accuracy' was picked as the primary metric since we have a classification task.
+2. experiment_timeout_minutes: This is the maximum time configured for AutoML to run the experiment. The higher we set this limit, the more models and hyper-parameter combinations can be explored by AutoML, increasing the probability that higher performing model will be found. However, the longer we run the experiment, the more compute costs will be incurred. In this case, 30 mins of experiment timeout was used.
+3. enable_early_stopping: If this setting is set to True, in case the primary metric is not improving in the short term, AutoML will terminate the experiment, rather than running the full allotted time via experiment_timeout_minutes setting. This can save some compute time and cost. In this case, this setting was set to True.
+4. n_cross_validations: Since we are not providing  separate validation dataset, rather we are passing in the full dataset to AutoML, this setting determines how many cross-validation folds will be performed. In this case, we have set the n_cross_validations to be 5.
+5. max_concurrent_iterations: This setting means the maximum number of iterations that would be executed in parallel. Since we have configured our compute cluster with 5 nodes, we have set max_concurrent_iterations to 5, so that each of the parallel iteration can be run on a separate compute node.
+
+The AutoML settings were confiured using this code: 
 ```
   automl_settings = {"primary_metric":"accuracy", "experiment_timeout_minutes":30, "enable_early_stopping":True, "n_cross_validations":5,"max_concurrent_iterations": 5}
 ```
+
+Some of the noteworthy AutoML config settings for the experiment were set as:
+1. task: This can take values 'classification', 'regression', 'forecasting', 'image-classification' etc. Since our problem entails predicting class ("DEATH_EVENT") for a given clinical record, we have set the task setting to 'classification'
+2. label_column_name: This is the column in the dataset that contains the label column. In our case it is "DEATH_EVENT".
+
 
 The AutoML config settings for the experiment were set as:
 ```
