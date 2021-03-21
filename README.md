@@ -1,6 +1,10 @@
 # Udacity Azure Machine Learning Engineer Nanodegree - Capstone project
 
-A dataset called "Heart Failure Clinical Results" is used to train 2 separate models: 1. using Azure AutoML 2. using a LogisticRegression classifer whose hyper-parameters are tuned using Hyperdrive library
+A dataset called "Heart Failure Clinical Results" is used to train 2 separate models: 1. using Azure AutoML 2. using a LogisticRegression classifer whose hyper-parameters are tuned using Hyperdrive library. 
+
+From the 2 different methods above, we will find which method yields a better model i.e. which model has higher accuracy metric. We will select the better performing model and deploy it using Azure Container Instance (ACI).
+
+After model deployment, we will obtain the model scoring REST endpoint. We will use the scoring endpoint and submit Json data containing test clinical features, using a POST Http request, and retrieve the model predictions from the endpoint's response.
 
 ## Project Set Up and Installation
 An Azure compute instance is required to be created to enable running the notebooks. The folowing files have to uploaded to the Azure compute instance:
